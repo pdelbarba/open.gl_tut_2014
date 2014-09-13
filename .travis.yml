@@ -5,7 +5,7 @@ compiler:
 
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq libglfw3 libglew1.10
+  - sudo apt-get install -qq libglfw3-dev libglew-dev libglew1.10
 
 before_script:
   - mkdir build
