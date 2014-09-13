@@ -1,15 +1,31 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 #define GLSL(src) "#version 150 core\n" #src
+
+void glCheckShaderError(GLuint shader) // Check for shader compilation errors
+{
+    GLint status;
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
+    
+    if (status != GL_TRUE)
+    {
+        char buffer[512];
+        glGetShaderInfoLog(shader, 512, NULL, buffer);
+        printf("%s\n", buffer);
+        exit(-1);
+    }
+}
 
 int main()
 {
     // -------------------------------- INIT ------------------------------- //
 
     // Init GLFW
-    if (glfwInit() != GL_TRUE) {
+    if (glfwInit() != GL_TRUE)
+    {
         fprintf(stderr, "Failed to initialize GLFW\n");
         return -1;
     }
@@ -27,7 +43,8 @@ int main()
 
     // Init GLEW
     glewExperimental = GL_TRUE;
-    if (glewInit() != GLEW_OK) {
+    if (glewInit() != GLEW_OK)
+    {
         fprintf(stderr, "Failed to initialize GLEW\n");
         return -1;
     }
@@ -64,6 +81,7 @@ int main()
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexSource, NULL);
     glCompileShader(vertexShader);
+    glCheckShaderError(vertexShader);
 
     // Create and compile the fragment shader
     const char* fragmentSource = GLSL(
@@ -77,6 +95,8 @@ int main()
     GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
     glCompileShader(fragmentShader);
+    glCheckShaderError(fragmentShader);
+
 
     // Link the vertex and fragment shader into a shader program
     GLuint shaderProgram = glCreateProgram();
@@ -95,10 +115,11 @@ int main()
 
     while(!glfwWindowShouldClose(window))
     {
-    	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-    		glfwSetWindowShouldClose(window, GL_TRUE);
-    	}
-		// Clear the screen to black
+        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        {
+            glfwSetWindowShouldClose(window, GL_TRUE);
+        }
+        // Clear the screen to black
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         
