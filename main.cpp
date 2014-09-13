@@ -70,7 +70,7 @@ int main()
         out vec4 outColor;
         
         void main() {
-            outColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+            outColor = vec4(1.0f, 1.0f, 0.0f, 1.0f);
         }
     );
 
@@ -95,6 +95,9 @@ int main()
 
     while(!glfwWindowShouldClose(window))
     {
+    	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+    		glfwSetWindowShouldClose(window, GL_TRUE);
+    	}
 		// Clear the screen to black
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
