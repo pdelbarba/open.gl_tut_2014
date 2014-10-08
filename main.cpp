@@ -85,6 +85,9 @@ int main()
 
     // Create and compile the fragment shader
     const char* fragmentSource = GLSL(
+
+        uniform vec3 triangleColor;
+
         out vec4 outColor;
         
         void main() {
@@ -110,6 +113,10 @@ int main()
     GLint posAttrib = glGetAttribLocation(shaderProgram, "position");
     glEnableVertexAttribArray(posAttrib);
     glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+    // Get uniform from shader
+    GLint uniColor = glGetUniformLocation(shaderProgram, "triangleColor");
+    glUniform3f(uniColor, 1.0f, 0.0f, 0.0f);//does this go here or in the program loop?
 
     // ---------------------------- RENDERING ------------------------------ //
 
